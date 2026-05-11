@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
