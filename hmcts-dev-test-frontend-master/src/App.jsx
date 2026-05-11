@@ -1,10 +1,97 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ApiError } from './api/http.js';
+import {
+  createTask,
+  deleteTask,
+  listTasks,
+  updateTaskStatus,
+} from './api/tasks.js';
+import ErrorBanner from './components/ErrorBanner.jsx';
+import StatusFilter from './components/StatusFilter.jsx';
+import TaskForm from './components/TaskForm.jsx';
+import TaskList from './components/TaskList.jsx';
+
+function toApiError(error) {
+  if (error instanceof ApiError) {
+    return {
+      message: error.message,
+      details: error.details,
+    };
+  }
+
+  return {
+    message: 'Something went wrong',
+    details: [],
+  };
+}
 
 export default function App() {
-  const [tasks] = useState([]);
-  const [statusFilter] = useState('all');
-  const [isLoading] = useState(false);
-  const [apiError] = useState(null);
+  const [tasks, setTasks] = useState([]);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState(null);
+
+  const filteredTasks = useMemo(() => {
+    if (statusFilter === 'all') {
+      return tasks;
+    }
+
+    return tasks.filter((task) => task.status === statusFilter);
+  }, [statusFilter, tasks]);
+
+  const loadTasks = useCallback(async () => {
+    setIsLoading(true);
+    setApiError(null);
+
+    try {
+      const nextTasks = await listTasks();
+      setTasks(nextTasks);
+    } catch (error) {
+      setApiError(toApiError(error));
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadTasks();
+  }, [loadTasks]);
+
+  async function handleCreateTask(payload) {
+    setApiError(null);
+
+    try {
+      await createTask(payload);
+      await loadTasks();
+    } catch (error) {
+      setApiError(toApiError(error));
+      throw error;
+    }
+  }
+
+  async function handleStatusChange(id, status) {
+    setApiError(null);
+
+    try {
+      const updatedTask = await updateTaskStatus(id, status);
+      setTasks((current) =>
+        current.map((task) => (task.id === id ? updatedTask : task)),
+      );
+    } catch (error) {
+      setApiError(toApiError(error));
+    }
+  }
+
+  async function handleDelete(id) {
+    setApiError(null);
+
+    try {
+      await deleteTask(id);
+      setTasks((current) => current.filter((task) => task.id !== id));
+    } catch (error) {
+      setApiError(toApiError(error));
+    }
+  }
 
   return (
     <div className="govuk-width-container">
@@ -19,44 +106,26 @@ export default function App() {
           <h2 className="govuk-heading-l" id="create-task-heading">
             Create a task
           </h2>
+          <TaskForm onSubmit={handleCreateTask} />
         </section>
 
         <section aria-labelledby="status-filter-heading">
-          <h2 className="govuk-visually-hidden" id="status-filter-heading">
-            Filter tasks by status
-          </h2>
-          <p className="govuk-body">Status filter: {statusFilter}</p>
+          <StatusFilter value={statusFilter} onChange={setStatusFilter} />
         </section>
 
         <section aria-labelledby="tasks-heading">
           <h2 className="govuk-heading-l" id="tasks-heading">
             Tasks
           </h2>
-          {isLoading ? (
-            <p className="govuk-body">Loading tasks...</p>
-          ) : tasks.length === 0 ? (
-            <p className="govuk-body">
-              No tasks yet. Create a task using the form above.
-            </p>
-          ) : null}
+          <TaskList
+            tasks={filteredTasks}
+            isLoading={isLoading}
+            onStatusChange={handleStatusChange}
+            onDelete={handleDelete}
+          />
         </section>
 
-        {apiError ? (
-          <section aria-labelledby="page-error-heading">
-            <h2 className="govuk-visually-hidden" id="page-error-heading">
-              Page error
-            </h2>
-            <div
-              className="govuk-error-summary"
-              aria-labelledby="error-summary-title"
-              role="alert"
-            >
-              <h3 className="govuk-error-summary__title" id="error-summary-title">
-                There is a problem
-              </h3>
-            </div>
-          </section>
-        ) : null}
+        <ErrorBanner error={apiError} />
       </main>
     </div>
   );
