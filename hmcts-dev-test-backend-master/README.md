@@ -2,84 +2,46 @@
 
 ![Backend CI](https://github.com/lovely-jubbly/lovely-jubbly-hmcts-dev-test/actions/workflows/backend-ci.yml/badge.svg)
 
-Express API for caseworker task management, backed by PostgreSQL and Prisma.
+Express API for caseworker tasks, backed by PostgreSQL and Prisma.
 
-## Stack
+## Run locally
 
-- Node.js 20
-- Express
-- PostgreSQL
-- Prisma
-- Zod
-- Jest and Supertest
-- ESLint and Prettier
-- Swagger UI at `/api-docs`
+Start PostgreSQL from the repository root with `docker compose up -d`, then run:
 
-## Local setup
+```bash
+npm install
+cp .env.example .env
+npx prisma migrate dev
+npm run dev
+```
 
-1. Install dependencies with `npm install`.
-2. Copy `.env.example` to `.env` and set the environment variables below.
-3. Apply database migrations with `npx prisma migrate dev`.
-4. Start the API with `npm run dev`.
-5. Open `http://localhost:3000/api-docs` for the API documentation.
+API: `http://localhost:3000`  
+Swagger UI: `http://localhost:3000/api-docs`
+
+The frontend expects this API on port `3000`.
 
 ## Environment variables
 
-| Variable       | Purpose                                                 |
-| -------------- | ------------------------------------------------------- |
-| `PORT`         | HTTP port for the API server                            |
-| `DATABASE_URL` | PostgreSQL connection string used by Prisma             |
-| `CORS_ORIGINS` | Comma-separated browser origins allowed to call the API |
-
-## Database migrations
-
-- Local development: `npx prisma migrate dev`
-- Render release: `npx prisma migrate deploy`
+| Variable | Purpose |
+| --- | --- |
+| `PORT` | API port |
+| `DATABASE_URL` | PostgreSQL connection string for Docker local setup |
+| `CORS_ORIGINS` | Allowed browser origins, including `http://localhost:5173` |
 
 ## Tests
 
-Run the full test suite with `npm test`.
+```bash
+npm test
+```
 
-Use `npm run test:watch` to re-run tests when files change.
+PostgreSQL must be running and migrations applied before the full test suite.
 
-Integration tests need a running PostgreSQL database and an applied schema. Set `DATABASE_URL` in `.env`, run `npx prisma migrate dev`, then run `npm test`.
-
-The suite includes unit tests for task validation and the task service, plus integration tests for `/health` and the task routes.
-
-## Scripts
-
-- `npm start` — run the API
-- `npm run dev` — run the API with nodemon
-- `npm test` — run tests
-- `npm run lint` — run ESLint
-- `npm run lint:fix` — fix ESLint issues
-- `npm run format` — format files with Prettier
-- `npm run format:check` — check formatting with Prettier
-- `npm run prisma:generate` — generate the Prisma client
-- `npm run prisma:migrate` — create and apply local migrations
-- `npm run prisma:deploy` — apply migrations in production
-
-## Live deployment
+## Live API
 
 | Item | URL |
 | --- | --- |
-| API base URL | `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com` |
-| Health check | `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com/health` |
-| Swagger UI | `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com/api-docs` |
-| Frontend | `https://hmcts-dev-test.netlify.app` |
+| API | `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com` |
+| Health | `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com/health` |
+| Swagger | `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com/api-docs` |
 
-## Render deployment
-
-Use these settings for the backend service:
-
-- Root directory: `hmcts-dev-test-backend-master`
-- Build command: `npm install && npm run prisma:generate && npm run prisma:deploy`
-- Start command: `npm start`
-
-Set `DATABASE_URL` and `CORS_ORIGINS` in Render. Set `PORT` only if the platform does not provide it automatically.
-
-Example `CORS_ORIGINS` value for local development and the deployed frontend:
-
-`http://localhost:5173,https://hmcts-dev-test.netlify.app`
-
-Run `npx prisma migrate deploy` during release so the database schema matches the deployed code.
+Full local and live setup: repository root `README.md`.

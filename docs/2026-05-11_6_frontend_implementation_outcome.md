@@ -91,12 +91,14 @@ Render `CORS_ORIGINS` includes `http://localhost:5173` and `https://hmcts-dev-te
 
 ## Local development and tests
 
-Setup is documented in `hmcts-dev-test-frontend-master/README.md`.
+Setup is documented in the repository root `README.md` and `hmcts-dev-test-frontend-master/README.md`.
 
-1. `npm install`
-2. Copy `.env.example` to `.env`
-3. `npm run dev`
-4. Open `http://localhost:5173`
+1. `docker compose up -d` from the repository root
+2. Start the API from `hmcts-dev-test-backend-master`
+3. `npm install`
+4. Copy `.env.example` to `.env`
+5. `npm run dev`
+6. Open `http://localhost:5173`
 
 Run `npm test` for unit and component coverage. Use `npm run lint`, `npm run format:check`, and `npm run test:watch` as documented in the frontend README.
 
@@ -104,9 +106,7 @@ Run `npm test` for unit and component coverage. Use `npm run lint`, `npm run for
 
 ## Follow-up before submission
 
-- Add the live Netlify URL to `hmcts-dev-test-frontend-master/README.md`.
-- Add the repository root submission `README.md` with GitHub, Netlify, and API links after final live verification.
-- Record the live frontend URL and API base URL in the submission materials required by the challenge.
+- Record the live frontend URL and API base URL in the repository root `README.md` and submission materials required by the challenge.
 
 ---
 

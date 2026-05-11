@@ -103,12 +103,13 @@ Render settings in use:
 
 ## Local development and tests
 
-Setup is documented in `hmcts-dev-test-backend-master/README.md`.
+Setup is documented in the repository root `README.md` and `hmcts-dev-test-backend-master/README.md`.
 
-1. `npm install`
-2. Copy `.env.example` to `.env`
-3. `npx prisma migrate dev`
-4. `npm run dev`
+1. `docker compose up -d` from the repository root
+2. `npm install`
+3. Copy `.env.example` to `.env`
+4. `npx prisma migrate dev`
+5. `npm run dev`
 
 Run `npm test` after PostgreSQL is available and migrations are applied. Use `npm run lint`, `npm run format:check`, and `npm run test:watch` as documented in the backend README.
 
@@ -117,8 +118,7 @@ Run `npm test` after PostgreSQL is available and migrations are applied. Use `np
 ## Follow-up after frontend deployment
 
 - Add the Netlify origin to `CORS_ORIGINS` on Render.
-- Record the live frontend URL and API base URL in the project README when both apps are public.
-- Confirm Render has stable GitHub access if automatic deploys on push are required.
+- Record the live frontend URL and API base URL in the repository root `README.md`.
 
 ---
 
