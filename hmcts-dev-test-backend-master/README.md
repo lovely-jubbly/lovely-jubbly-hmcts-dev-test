@@ -20,7 +20,9 @@ Run the full test suite with `npm test`.
 
 Use `npm run test:watch` to re-run tests when files change.
 
-Current coverage is unit tests for task validation and the task service. Integration tests for HTTP routes are added as those endpoints are implemented.
+Integration tests need a running PostgreSQL database and an applied schema. Set `DATABASE_URL` in `.env`, run `npx prisma migrate dev`, then run `npm test`.
+
+The suite includes unit tests for task validation and the task service, plus integration tests for `/health` and the task routes.
 
 ## Scripts
 
