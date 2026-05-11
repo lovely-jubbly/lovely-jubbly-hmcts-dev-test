@@ -12,6 +12,10 @@ const router = express.Router();
  *     responses:
  *       200:
  *         description: Service is healthy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/HealthResponse'
  */
 router.get('/health', (_req, res) => {
   res.status(200).json({ status: 'ok' });
