@@ -5,7 +5,9 @@ describe('toIsoDateTime', () => {
   it('converts datetime-local input to ISO 8601', () => {
     const isoDateTime = toIsoDateTime('2026-05-15T09:00');
 
-    expect(isoDateTime).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    expect(isoDateTime).toMatch(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
+    );
     expect(Number.isNaN(new Date(isoDateTime).getTime())).toBe(false);
   });
 

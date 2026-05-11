@@ -22,7 +22,10 @@ describe('TaskForm', () => {
     render(<TaskForm onSubmit={onSubmit} />);
 
     await user.type(screen.getByLabelText('Title'), 'Review case file');
-    await user.type(screen.getByLabelText('Description'), 'Check witness statements');
+    await user.type(
+      screen.getByLabelText('Description'),
+      'Check witness statements',
+    );
     await user.selectOptions(screen.getByLabelText('Status'), 'pending');
     await user.type(
       screen.getByLabelText('Due date and time'),

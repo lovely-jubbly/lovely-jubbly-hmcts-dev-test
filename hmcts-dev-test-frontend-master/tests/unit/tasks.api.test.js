@@ -66,7 +66,9 @@ describe('tasks api', () => {
 
     vi.stubGlobal(
       'fetch',
-      vi.fn().mockResolvedValue(jsonResponse({ status: 201, body: createdTask })),
+      vi
+        .fn()
+        .mockResolvedValue(jsonResponse({ status: 201, body: createdTask })),
     );
 
     await expect(createTask(task)).resolves.toEqual(createdTask);
@@ -96,7 +98,9 @@ describe('tasks api', () => {
 
     vi.stubGlobal(
       'fetch',
-      vi.fn().mockResolvedValue(jsonResponse({ status: 200, body: updatedTask })),
+      vi
+        .fn()
+        .mockResolvedValue(jsonResponse({ status: 200, body: updatedTask })),
     );
 
     await expect(

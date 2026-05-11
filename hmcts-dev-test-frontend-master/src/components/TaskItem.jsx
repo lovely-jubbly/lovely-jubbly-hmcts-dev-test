@@ -22,9 +22,7 @@ export default function TaskItem({ task, onStatusChange, onDelete }) {
   return (
     <li className="govuk-!-margin-bottom-6">
       <h3 className="govuk-heading-m">{task.title}</h3>
-      <p className="govuk-body">
-        {task.description ?? 'No description'}
-      </p>
+      <p className="govuk-body">{task.description ?? 'No description'}</p>
       <p className="govuk-body">
         <strong className="govuk-tag">{STATUS_LABELS[task.status]}</strong>
       </p>

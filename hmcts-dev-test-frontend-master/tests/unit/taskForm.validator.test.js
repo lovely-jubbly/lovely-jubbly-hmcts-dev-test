@@ -15,7 +15,9 @@ describe('createTaskFormSchema', () => {
     expect(result.title).toBe(validFormInput.title);
     expect(result.description).toBe(validFormInput.description);
     expect(result.status).toBe(validFormInput.status);
-    expect(result.dueDate).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    expect(result.dueDate).toMatch(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
+    );
   });
 
   it('omits blank description from the parsed payload', () => {

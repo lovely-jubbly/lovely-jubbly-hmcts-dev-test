@@ -1,5 +1,7 @@
 # HMCTS Task Management Frontend
 
+![Frontend CI](https://github.com/lovely-jubbly/lovely-jubbly-hmcts-dev-test/actions/workflows/frontend-ci.yml/badge.svg)
+
 React app for caseworker task management, built with Vite and GOV.UK Frontend.
 
 ## Stack
@@ -22,8 +24,8 @@ The app expects the backend API to be running locally on port `3000` unless `VIT
 
 ## Environment variables
 
-| Variable            | Purpose                          |
-| ------------------- | -------------------------------- |
+| Variable            | Purpose                         |
+| ------------------- | ------------------------------- |
 | `VITE_API_BASE_URL` | Base URL for the HMCTS task API |
 
 ## Scripts
@@ -37,3 +39,17 @@ The app expects the backend API to be running locally on port `3000` unless `VIT
 - `npm run lint:fix` — fix ESLint issues
 - `npm run format` — format files with Prettier
 - `npm run format:check` — check formatting with Prettier
+
+## Netlify deployment
+
+Use `hmcts-dev-test-frontend-master` as the Netlify site root directory.
+
+- Build command: `npm run build`
+- Publish directory: `dist`
+- SPA redirect: `/*` to `/index.html`
+
+Set `VITE_API_BASE_URL` to `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com`.
+
+Add the Netlify site origin to backend `CORS_ORIGINS` on Render before testing create, list, status update, and delete from the deployed frontend.
+
+Record the live Netlify URL in this README after the site is published.

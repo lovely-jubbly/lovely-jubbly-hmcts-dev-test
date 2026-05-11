@@ -120,7 +120,9 @@ describe('ErrorBanner', () => {
     expect(
       screen.getByRole('link', { name: 'Validation failed' }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'title: Required' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'title: Required' }),
+    ).toBeInTheDocument();
   });
 });
 
