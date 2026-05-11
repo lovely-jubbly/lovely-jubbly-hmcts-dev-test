@@ -24,7 +24,10 @@ describe('Task routes', () => {
 
   describe('POST /tasks', () => {
     it('creates a task with valid input', async () => {
-      const response = await request(app).post('/tasks').send(validTask).expect(201);
+      const response = await request(app)
+        .post('/tasks')
+        .send(validTask)
+        .expect(201);
 
       expect(response.body).toMatchObject({
         title: validTask.title,
@@ -40,7 +43,10 @@ describe('Task routes', () => {
     it('creates a task without description', async () => {
       const { description: _description, ...input } = validTask;
 
-      const response = await request(app).post('/tasks').send(input).expect(201);
+      const response = await request(app)
+        .post('/tasks')
+        .send(input)
+        .expect(201);
 
       expect(response.body.description).toBeNull();
     });
@@ -104,15 +110,23 @@ describe('Task routes', () => {
 
       const response = await request(app).get('/tasks').expect(200);
 
-      expect(response.body.map((task) => task.title)).toEqual(['Earlier task', 'Later task']);
+      expect(response.body.map((task) => task.title)).toEqual([
+        'Earlier task',
+        'Later task',
+      ]);
     });
   });
 
   describe('GET /tasks/:id', () => {
     it('returns a task by id', async () => {
-      const created = await request(app).post('/tasks').send(validTask).expect(201);
+      const created = await request(app)
+        .post('/tasks')
+        .send(validTask)
+        .expect(201);
 
-      const response = await request(app).get(`/tasks/${created.body.id}`).expect(200);
+      const response = await request(app)
+        .get(`/tasks/${created.body.id}`)
+        .expect(200);
 
       expect(response.body.id).toBe(created.body.id);
     });
@@ -139,7 +153,10 @@ describe('Task routes', () => {
 
   describe('PATCH /tasks/:id/status', () => {
     it('updates task status', async () => {
-      const created = await request(app).post('/tasks').send(validTask).expect(201);
+      const created = await request(app)
+        .post('/tasks')
+        .send(validTask)
+        .expect(201);
 
       const response = await request(app)
         .patch(`/tasks/${created.body.id}/status`)
@@ -151,7 +168,10 @@ describe('Task routes', () => {
     });
 
     it('rejects invalid status updates', async () => {
-      const created = await request(app).post('/tasks').send(validTask).expect(201);
+      const created = await request(app)
+        .post('/tasks')
+        .send(validTask)
+        .expect(201);
 
       await request(app)
         .patch(`/tasks/${created.body.id}/status`)
@@ -169,7 +189,10 @@ describe('Task routes', () => {
 
   describe('DELETE /tasks/:id', () => {
     it('deletes an existing task', async () => {
-      const created = await request(app).post('/tasks').send(validTask).expect(201);
+      const created = await request(app)
+        .post('/tasks')
+        .send(validTask)
+        .expect(201);
 
       await request(app).delete(`/tasks/${created.body.id}`).expect(204);
       await request(app).get(`/tasks/${created.body.id}`).expect(404);

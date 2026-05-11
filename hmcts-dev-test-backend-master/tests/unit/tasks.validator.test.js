@@ -13,7 +13,9 @@ const validCreateInput = {
 
 describe('createTaskBodySchema', () => {
   it('accepts a valid create task body', () => {
-    expect(createTaskBodySchema.parse(validCreateInput)).toEqual(validCreateInput);
+    expect(createTaskBodySchema.parse(validCreateInput)).toEqual(
+      validCreateInput,
+    );
   });
 
   it('accepts create task body without description', () => {

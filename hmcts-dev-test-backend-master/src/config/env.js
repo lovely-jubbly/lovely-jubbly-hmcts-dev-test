@@ -21,7 +21,9 @@ function loadEnv() {
     .filter(Boolean);
 
   if (corsOrigins.length === 0) {
-    throw new Error('Invalid environment configuration: CORS_ORIGINS must include at least one origin');
+    throw new Error(
+      'Invalid environment configuration: CORS_ORIGINS must include at least one origin',
+    );
   }
 
   return {

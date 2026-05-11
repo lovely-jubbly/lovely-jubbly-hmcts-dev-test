@@ -104,7 +104,9 @@ describe('tasks.service', () => {
 
       prisma.task.update.mockResolvedValue(updatedTask);
 
-      await expect(updateTaskStatus(taskRecord.id, 'in_progress')).resolves.toEqual({
+      await expect(
+        updateTaskStatus(taskRecord.id, 'in_progress'),
+      ).resolves.toEqual({
         ...serializedTask,
         status: 'in_progress',
         updatedAt: '2026-05-11T11:00:00.000Z',
@@ -114,7 +116,9 @@ describe('tasks.service', () => {
     it('throws a not-found error when the task is missing', async () => {
       prisma.task.update.mockRejectedValue({ code: 'P2025' });
 
-      await expect(updateTaskStatus(taskRecord.id, 'done')).rejects.toMatchObject({
+      await expect(
+        updateTaskStatus(taskRecord.id, 'done'),
+      ).rejects.toMatchObject({
         code: 'P2025',
       });
     });
