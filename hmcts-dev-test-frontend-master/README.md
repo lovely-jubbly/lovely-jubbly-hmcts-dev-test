@@ -40,6 +40,13 @@ The app expects the backend API to be running locally on port `3000` unless `VIT
 - `npm run format` — format files with Prettier
 - `npm run format:check` — check formatting with Prettier
 
+## Live deployment
+
+| Item | URL |
+| --- | --- |
+| Frontend | `https://hmcts-dev-test.netlify.app` |
+| API base URL | `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com` |
+
 ## Netlify deployment
 
 Use `hmcts-dev-test-frontend-master` as the Netlify site root directory.
@@ -47,9 +54,8 @@ Use `hmcts-dev-test-frontend-master` as the Netlify site root directory.
 - Build command: `npm run build`
 - Publish directory: `dist`
 - SPA redirect: `/*` to `/index.html`
+- Production branch: `main`
 
 Set `VITE_API_BASE_URL` to `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com`.
 
-Add the Netlify site origin to backend `CORS_ORIGINS` on Render before testing create, list, status update, and delete from the deployed frontend.
-
-Record the live Netlify URL in this README after the site is published.
+The Render backend `CORS_ORIGINS` value must include `https://hmcts-dev-test.netlify.app` for the deployed frontend to call the API.

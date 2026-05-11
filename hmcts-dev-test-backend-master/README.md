@@ -59,13 +59,27 @@ The suite includes unit tests for task validation and the task service, plus int
 - `npm run prisma:migrate` — create and apply local migrations
 - `npm run prisma:deploy` — apply migrations in production
 
+## Live deployment
+
+| Item | URL |
+| --- | --- |
+| API base URL | `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com` |
+| Health check | `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com/health` |
+| Swagger UI | `https://lovely-jubbly-hmcts-dev-test-backend.onrender.com/api-docs` |
+| Frontend | `https://hmcts-dev-test.netlify.app` |
+
 ## Render deployment
 
 Use these settings for the backend service:
 
+- Root directory: `hmcts-dev-test-backend-master`
 - Build command: `npm install && npm run prisma:generate && npm run prisma:deploy`
 - Start command: `npm start`
 
 Set `DATABASE_URL` and `CORS_ORIGINS` in Render. Set `PORT` only if the platform does not provide it automatically.
+
+Example `CORS_ORIGINS` value for local development and the deployed frontend:
+
+`http://localhost:5173,https://hmcts-dev-test.netlify.app`
 
 Run `npx prisma migrate deploy` during release so the database schema matches the deployed code.
