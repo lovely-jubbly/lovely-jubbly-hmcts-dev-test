@@ -40,6 +40,8 @@ These choices are final for the backend. The plan does not defer alternatives.
 | Validation | Zod schemas with a shared Express validation middleware | One schema per operation; consistent 400 responses without scattering rules in route handlers. |
 | API documentation | `swagger-jsdoc` + `swagger-ui-express` at `/api-docs` | Satisfies endpoint documentation with an interactive UI. |
 | Testing | Jest + Supertest | Required by the project instructions. |
+| Linting | ESLint 9 flat config with `@eslint/js` and `globals` | Standard Node.js checks without a TypeScript parser. |
+| Formatting | Prettier with `eslint-config-prettier` | One formatter; ESLint does not fight Prettier on style rules. |
 | Task identifier | UUID (`@default(uuid())` in Prisma) | Stable public identifier for REST URLs. |
 | Status values | `pending`, `in_progress`, `done` | Aligns with the frontend plan and caseworker workflow. |
 | Due date/time | Required ISO 8601 datetime string in API requests; stored as `DateTime` in UTC | Matches the challenge field and avoids ambiguous date-only values. |
@@ -156,6 +158,9 @@ hmcts-dev-test-backend-master/
   .gitignore
   package.json
   jest.config.js
+  eslint.config.js
+  .prettierrc
+  .prettierignore
   prisma/
     schema.prisma
     migrations/
@@ -200,16 +205,17 @@ Each goal ends with a concrete step that can be checked during implementation.
 
 ### Goal 1 — Repository bootstrap and runtime wiring
 
-1. Initialise `package.json` with scripts: `start`, `dev`, `test`, `test:watch`, `prisma:generate`, `prisma:migrate`, `prisma:deploy`.
+1. Initialise `package.json` with scripts: `start`, `dev`, `test`, `test:watch`, `lint`, `lint:fix`, `format`, `format:check`, `prisma:generate`, `prisma:migrate`, `prisma:deploy`.
 2. Add runtime dependencies: `express`, `@prisma/client`, `zod`, `cors`, `swagger-jsdoc`, `swagger-ui-express`.
-3. Add development dependencies: `prisma`, `jest`, `supertest`, `nodemon`.
+3. Add development dependencies: `prisma`, `jest`, `supertest`, `nodemon`, `eslint`, `@eslint/js`, `globals`, `prettier`, `eslint-config-prettier`.
 4. Configure Jest for the `tests/` directory and a test environment suitable for HTTP and unit tests.
-5. Expand `.gitignore` for `node_modules`, `.env`, coverage output, and Prisma local artefacts.
-6. Implement `src/config/env.js` to read and validate `PORT`, `DATABASE_URL`, and `CORS_ORIGINS` at startup.
-7. Implement `src/lib/prisma.js` as the single Prisma client instance used by services.
-8. Implement `src/app.js` with JSON body parsing, CORS, route registration, Swagger UI, not-found handling, and the error handler.
-9. Implement `src/server.js` to load env config, create the app, and listen on `PORT`.
-10. Add `GET /health` in `src/routes/health.routes.js` returning `{ "status": "ok" }`.
+5. Add `eslint.config.js`, `.prettierrc`, and `.prettierignore` for `src/` and `tests/`.
+6. Expand `.gitignore` for `node_modules`, `.env`, coverage output, and Prisma local artefacts.
+7. Implement `src/config/env.js` to read and validate `PORT`, `DATABASE_URL`, and `CORS_ORIGINS` at startup.
+8. Implement `src/lib/prisma.js` as the single Prisma client instance used by services.
+9. Implement `src/app.js` with JSON body parsing, CORS, route registration, Swagger UI, not-found handling, and the error handler.
+10. Implement `src/server.js` to load env config, create the app, and listen on `PORT`.
+11. Add `GET /health` in `src/routes/health.routes.js` returning `{ "status": "ok" }`.
 
 ### Goal 2 — Database schema and migrations
 
@@ -256,13 +262,14 @@ Each goal ends with a concrete step that can be checked during implementation.
 1. Create `.env.example` with `PORT`, `DATABASE_URL`, and `CORS_ORIGINS` documented inline.
 2. Write the backend `README.md` with purpose, stack summary, local setup (install, env, migrate, run, test), environment variables, and API docs URL.
 3. Document how to run Jest locally and how integration tests expect database access.
-4. Keep README author references anonymous per project instructions.
+4. Document how to run `npm run lint`, `npm run lint:fix`, `npm run format`, and `npm run format:check`.
+5. Keep README author references anonymous per project instructions.
 
 ### Goal 8 — Render deployment and CI
 
 1. Add Render-oriented `start` script using `node src/server.js` and release-time `prisma migrate deploy`.
 2. Document required Render environment variables: `DATABASE_URL`, `CORS_ORIGINS`, and `PORT` if not supplied by the platform.
-3. Add a GitHub Actions workflow that installs dependencies, generates the Prisma client, runs migrations against a CI PostgreSQL service, and executes `npm test`.
+3. Add a GitHub Actions workflow that installs dependencies, generates the Prisma client, runs migrations against a CI PostgreSQL service, and executes `npm run lint`, `npm run format:check`, and `npm test`.
 4. Add a CI status badge to the backend README once the workflow exists.
 
 ## Implementation sequence
@@ -277,6 +284,7 @@ The backend is complete for this plan when:
 - All endpoints match the API contract and error envelope.
 - Prisma migrations apply cleanly on a fresh database.
 - `.env.example` and the backend README allow a new developer to run the API and tests locally.
+- `npm run lint` and `npm run format:check` pass locally and in GitHub Actions.
 - GitHub Actions runs the test suite successfully on push and pull request.
 - The service runs on Render with PostgreSQL, CORS configured for the frontend origin, and `/health` returning `200`.
 

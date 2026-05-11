@@ -16,6 +16,7 @@
 - Swagger/OpenAPI docs (this alone will impress — it satisfies "Document API endpoints" cleanly)
 - Unit tests with **Jest** + **Supertest**
 - PostgreSQL via **Prisma** ORM (clean schema, easy migrations)
+- **ESLint** and **Prettier** for consistent JavaScript style, with `lint` and `format` npm scripts in the backend app
 
 **Frontend (React + Vite)**
 - Clean task dashboard: list, create, edit, delete
@@ -23,6 +24,7 @@
 - Form validation
 - Fetch from your deployed backend API
 - Use **GOV.UK Frontend** design system — HMCTS literally uses this, and it'll signal cultural fit strongly
+- **ESLint** (React + Vite rules) and **Prettier** for consistent JavaScript and JSX style, with `lint` and `format` npm scripts in the frontend app
 
 ---
 
@@ -42,6 +44,7 @@ This is explicitly called out. Include:
 - How to run locally (backend + frontend separately)
 - Environment variables needed (`.env.example`)
 - How to run tests
+- How to run ESLint and Prettier (`lint`, `lint:fix`, `format`, `format:check`) for backend and frontend
 - Live demo links
 
 ---
@@ -55,6 +58,7 @@ This is explicitly called out. Include:
 | `.env.example` file | Shows production awareness |
 | Separate repos for front/back | Mirrors professional team setups |
 | CI badge in README (GitHub Actions) | Shows DevOps awareness |
+| ESLint + Prettier on backend and frontend | Shows consistent code quality and formatting discipline |
 
 ---
 
@@ -79,7 +83,7 @@ A rough structure for the 250 words:
 - What you built (2-3 sentences)
 - Backend decisions — language, framework, DB, why (4-5 sentences)
 - Frontend decisions — framework, UX approach, GOV.UK styling (3-4 sentences)
-- Testing, validation, error handling specifics (3-4 sentences)
+- Testing, validation, error handling, ESLint, and Prettier specifics (3-4 sentences)
 - Deployment approach — Netlify + Render, what that demonstrates (2-3 sentences)
 - Repo link
 
