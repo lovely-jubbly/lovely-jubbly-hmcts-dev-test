@@ -14,6 +14,14 @@ Express API for caseworker task management, backed by PostgreSQL and Prisma.
 - Local development: `npx prisma migrate dev`
 - Render release: `npx prisma migrate deploy`
 
+## Tests
+
+Run the full test suite with `npm test`.
+
+Use `npm run test:watch` to re-run tests when files change.
+
+Current coverage is unit tests for task validation and the task service. Integration tests for HTTP routes are added as those endpoints are implemented.
+
 ## Scripts
 
 - `npm start` — run the API
