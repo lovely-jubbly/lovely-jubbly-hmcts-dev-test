@@ -66,7 +66,12 @@ describe('TaskList', () => {
       />,
     );
 
-    await user.selectOptions(screen.getByLabelText('Update status'), 'done');
+    await user.selectOptions(
+      screen.getByRole('combobox', {
+        name: `Update status for ${sampleTask.title}`,
+      }),
+      'done',
+    );
 
     expect(onStatusChange).toHaveBeenCalledWith(sampleTask.id, 'done');
   });

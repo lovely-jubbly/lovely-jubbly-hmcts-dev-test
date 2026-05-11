@@ -19,15 +19,36 @@ export default function TaskList({
   }
 
   return (
-    <ul className="govuk-list">
-      {tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          onStatusChange={onStatusChange}
-          onDelete={onDelete}
-        />
-      ))}
-    </ul>
+    <table className="govuk-table">
+      <thead className="govuk-table__head">
+        <tr className="govuk-table__row">
+          <th scope="col" className="govuk-table__header">
+            Task
+          </th>
+          <th scope="col" className="govuk-table__header">
+            Due
+          </th>
+          <th scope="col" className="govuk-table__header">
+            Created / updated
+          </th>
+          <th scope="col" className="govuk-table__header">
+            Status
+          </th>
+          <th scope="col" className="govuk-table__header">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody className="govuk-table__body">
+        {tasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            task={task}
+            onStatusChange={onStatusChange}
+            onDelete={onDelete}
+          />
+        ))}
+      </tbody>
+    </table>
   );
 }
